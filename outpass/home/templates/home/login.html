@@ -1,0 +1,59 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'home/login.css' %}">
+<title>LOGIN</title>
+<style>
+body {
+  background-image: url("{% static 'home/login-bg.jpg' %}");
+  background-repeat: no-repeat;
+  background-size: cover;
+ background-attachment: fixed;
+}
+</style>
+<script src="{% static 'home/login.js' %}"></script>
+{% endblock %}
+
+
+{% block body %}
+    <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <div class="fadeIn first">
+      <img src="{% static 'home/logo.jpg' %}" id="icon" alt="User Icon">
+    </div>
+    <form onsubmit="return validateSubmit()" method="POST" action="">
+      {% csrf_token %}
+
+      {% if tutor %}
+      <div>TUTOR LOGIN</div>
+      {% endif %}
+      {% if warden %}
+      <div>WARDEN LOGIN</div>
+      {% endif %}
+      {% if student %}
+      <div>STUDENT LOGIN</div>
+      {% endif %}
+      {% if security %}
+      <div>SECURITY LOGIN</div>
+      {% endif %}
+
+      {% if wrong %}
+      <div style="color:red;">Email or Password is incorrect</div>
+      {% endif %}
+
+      <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email" {% if email %} value="{{email}}" {% endif %}>
+      <div style="color:red; display: none;" id='email-error'>Enter valid email</div>
+
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
+      <div style="color:red; display: none;" id='password-error'>Enter password</div>
+
+      <input type="submit" class="fadeIn fourth" value="Log In">
+    </form>
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

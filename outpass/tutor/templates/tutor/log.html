@@ -1,0 +1,78 @@
+{% extends "home/base.html"%}
+
+{% block head %}
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+<script>
+	$(function() {
+		$('#datetimepicker1').datepicker();
+	  });
+</script>
+{% endblock %}
+
+{% block body %}
+  <form action="" method="get">
+	  <div class='col-sm-6 mt-3' style="width: 320px;">
+		<div class="form-group">
+		  <div class='input-group date' id='datetimepicker1' style="width: 35rem">
+      <h4 style="display: inline" class="mt-1 mr-2">Select date:</h4>
+      <input type='text' class="form-control"  id="out" name="date" required autocomplete="off"/>
+			<span class="input-group-addon">
+			  <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+      <span><button class="btn btn-dark ml-3">Search</button></span>
+      {% if not request.GET.date == None %}
+      <span class="mt-1 ml-3"><big>(Current date: {{ request.GET.date }})</big></span>
+      {% endif %}
+		  </div>
+		</div>
+    </div>
+  </form>
+
+        <table class="table table-bordered table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">SNo</th>
+                    <th scope="col">RegisterNumber</th>
+                    <th scope="col">RequestedDate</th>
+                    <th scope="col"> DepartureDate</th>
+                    <th scope="col"> Reason</th>
+                    <th scope="col"> AcceptedTutor</th>
+                    <th scope="col"> AcceptedWarden </th>
+                    <th scope="col"> No of Days</th>
+                    <th scope="col"> In Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                        {% for record in records%}
+                        {% if record.emergency %}
+                        <tr scope="row" class="bg-danger">
+                        {% else %} 
+                        <tr scope="row">
+                        {% endif %}   
+                            <td> {{forloop.counter}}</td>
+                            <td> 
+                              <a href="{% url 'student-profile' record.student.pk %}" style="color:white;"> {{ record.student.reg_no}}</a>
+                            </td>
+                            <td>  {{record.req_date}} </td>
+                            <td>  {{record.dep_date}}</td>
+                            <td>{{record.reason}}</td>
+                            <td> 
+                            {{record.accepted_tutor}}
+                            </td>
+                            <td> 
+                            {{record.accepted_warden}}
+                            </td>
+                            <td>  {{record.req_days}}</td>
+                            {% if record.in_time %}
+                            <td>{{ record.in_time }}</td>
+                            {% else %}
+                            <td>Waiting..</td>
+                            {% endif %}
+                          </tr>
+                        {% endfor %}
+                </tbody>
+              </table>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+body {
+	width: 100wh;
+	height: 90vh;
+	color: #fff;
+	background: linear-gradient(-45deg,#EA155F, #23A6D5, #23D5AB,#630F9B,#EA155F,#FFE189);
+	background-size: 400% 400%;
+	-webkit-animation: Gradient 15s ease infinite;
+	-moz-animation: Gradient 15s ease infinite;
+	animation: Gradient 15s ease infinite;
+}
+
+@-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@-moz-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+.bg-container-contact100 {
+	background-image: url("logo1.png");
+    width: 100%;
+    height: 170%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  
+    position: fixed;
+    z-index: 1;
+    top: 0;
+	left: 0;
+	opacity: 0.25;
+  filter: alpha(opacity=50)
+  }
+  <-- buttons-->
+
+@import "bourbon";
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #17161e;
+}
+
+.button-container {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn {
+	display: block;
+	height: 50px;
+	width: 186px;
+	position: relative;
+	overflow: hidden;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	color: white;
+	font-size: 14px;
+	text-align: center;
+	
+	a:after {
+	  position: absolute;
+	  content:'';
+	  display: inline-block;
+	  background: rgba(59,173,227,1);
+	  background: linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
+	  height: 50px;
+	  width: 372px;
+	  z-index: -1;
+	  transform: translateX(-280px);
+	  transition: transform 400ms ease-in;
+	}
+	
+	a:hover {
+	  a:after {
+		transform: translateX(-200px);
+	  }
+	}
+	span {
+	  position: relative;
+	  top: 16px;
+	}
+	}

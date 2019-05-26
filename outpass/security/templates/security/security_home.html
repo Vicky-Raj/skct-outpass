@@ -1,0 +1,141 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'home/home.css' %}">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <script src="{% static 'home/logout.js' %}"></script>
+    <script>
+    function accept(pk){
+    var url = window.location.protocol+'//'+window.location.hostname+':'+window.location.port+'/security/op/accept/';
+    var home = window.location.protocol+'//'+window.location.hostname+':'+window.location.port+'/security/{{user.security.pk}}/home/';
+    var request = new XMLHttpRequest();
+    request.open('POST', url);
+    request.onload = ()=>{
+        if(request.status == 200){
+            var response = JSON.parse(request.responseText);
+            if(response['accepted']){
+                window.location = home;
+            } 
+        }
+    };
+    request.send(JSON.stringify({'pk':pk}));
+}
+
+function reject(pk){
+    var url = window.location.protocol+'//'+window.location.hostname+':'+window.location.port+'/security/{{user.security.pk}}/reject/';
+    var home = window.location.protocol+'//'+window.location.hostname+':'+window.location.port+'/security/{{user.security.pk}}/home/';
+    var request = new XMLHttpRequest();
+    request.open('POST', url);
+    request.onload = ()=>{
+        if(request.status == 200){
+            var response = JSON.parse(request.responseText);
+            if(response['rejected']){
+                window.location = home;
+            } 
+        }
+    };
+    request.send(JSON.stringify({'pk':pk}));
+}
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>SKCT OUTPASS</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                    <li>
+                            <a href="">HOME</a>
+                  </li>
+               
+                <li>
+                    <a href="{% url 'intime' user.security.pk %}">IN TIME</a>
+                </li>
+                <li>
+                    <a href="{% url 'reset' %}">RESET PASSWORD</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                     <ul class="nav navbar-nav ">
+                             <li class="nav-item">
+                                 <button class="butn" onclick="logout()">
+                                    <a class="nav-link btn btn-primary" href="#" style="color:white;">{{user}},LOGOUT <img src="{% static 'home/logout.svg' %}" alt="" height="20px" width="20px"></a>
+                                    </button>
+                                </li>
+                        </ul>
+                    </div>
+                    </nav>
+                    <div class="row justify-content-center pl-3 pr-3 mt-3" id='outpass'>
+                        <div class="card" style="width: 40rem;">
+                     <div class="card-title text-center pt-3"><h2>SECURITY</h2></div>
+                        <div class="card-body">                        
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                          <div class="form-group">
+                            <label for="usr">OTP:</label>
+                            <input type="text" class="form-control" id="usr" name="otp" placeholder="ENTER OTP HERE" autocomplete="off">
+                          </div>
+                          <div class="text-center"><button type="submit" class="btn btn-primary">SUBMIT</button></div>
+                        </form>
+                        </div>
+                        </div>
+                        </div>
+
+                        {% if outpass %}
+                        {% if outpass.security_status == 'pending' %}
+                        <div class="row justify-content-center pl-3 pr-3 mt-3" id='outpass'>
+                        <div class="card" style="width: 50rem;">
+                            <div class="card-body">
+                                <div><a href="{% url 'student-profile' outpass.student.pk %}" >requested-by: <span style="color:blue">{{ outpass.student.user.username }}</span></a></div>
+                                <div class="mb-2">requested-datetime: {{ outpass.req_date|date:"d/m/Y, f a" }}</div>
+                                <div class="mb-2">departure-datetime: {{ outpass.dep_date|date:"d/m/Y, f a" }}</div>
+                                <div class="mb-2">requested-days: {{ outpass.req_days}}</div>
+                                <div class="mb-2">reason: {{outpass.reason}}</div>
+                                <div class="mb-2">tutor-status: {{outpass.tutor_status}}</div>
+                                <div class="mb-2">warden-status: {{outpass.warden_status}}</div>
+                                <div>
+                                    <span class="float-right ml-3"><button class="btn btn-danger" onclick="reject('{{outpass.pk}}')">Reject</button></span>
+                                    <span class="float-right"><button class="btn btn-success" onclick="accept('{{outpass.pk}}')" >Accept</button></span>
+                                </div>
+                            </div>
+                          </div></div>
+                          {% endif %}
+                        {% endif %}
+                        
+                        {% if nothing %}
+                        <div class="text-center mt-5" style="color:red;">Outpass does not exist</div>
+                        {% endif %}
+
+                </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "home/base.html"%}
+
+{% block head %}
+
+<style>
+    .avatar {
+    width: 33px;
+    height: 33px;
+    border-radius: 80%;
+    }
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+{% endblock %}
+
+{% block body %}
+
+
+
+<form class="form-inline" method="GET" action="">
+
+        <div class="form-group mx-sm-3 mb-2">
+        <span class="ml-3 mt-3"><big>Year:</big></span>
+        <select class="form-control ml-3 mt-3" id="sel" name="year">
+            {% for i in 'xxxx' %}
+            {% if forloop.first %}
+            <option value="{{forloop.counter}}" selected>{{forloop.counter}}</option>
+            {% else %}
+            <option value="{{ forloop.counter }}">{{forloop.counter}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+        {% if value %}
+          <input type="text" class="form-control mt-3 ml-3" id="search" placeholder="Enter roll no" name="rollno" value="{{value}}">
+        {% else %}
+        <input type="text" class="form-control mt-3 ml-3" id="search" placeholder="Enter roll no" name="rollno">
+        {% endif %}
+        <span class="mt-2 ml-2"><big>(CURRENT YEAR: {{request.GET.year}})</big></span>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3 mb-3">Search</button>
+</form>
+
+
+
+        <table class="table table-bordered table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">REGISTER NUMBER</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">DEPARTMENT</th>
+                    <th scope="col"> ROOM</th>
+                    <th scope="col"> PARENTS NO</th>
+                    <th scope="col"> STUDENT NO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                        {% for student in students%} 
+                        <tr scope="row"> 
+                            <td><a href="{% url 'student-profile' student.pk %}"><img src="{{student.image.url}}" class="avatar"></a></td>
+                            <td> 
+                               {{ student.user.username }}
+                            </td>
+                            <td>  {{ student.user.first_name }} </td>
+                            <td>  {{ student.dep }}</td>
+                            <td> 
+                            {{ student.room }}
+                            </td>
+                            <td>  {{ student.parent_no }}</td>
+                            <td>{{ student.student_no }}</td>
+                          </tr>
+                        {% endfor %}
+                </tbody>
+              </table>
+
+{% endblock %}

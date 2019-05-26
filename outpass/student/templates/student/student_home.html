@@ -1,0 +1,102 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'home/home.css' %}">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <script src="{% static 'home/logout.js' %}"></script>
+    <script src="{% static 'student/del.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>SKCT OUTPASS</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                    <li>
+                       <a href="">HOME</a>
+                  </li>
+               
+                {% if not user.student.outpass_set.count > 0 %}
+                <li>
+                    <a href="{% url 'op-form' user.student.pk %}">Request Outpass</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'reset' %}">RESET PASSWORD</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                     <ul class="nav navbar-nav ">
+                             <li class="nav-item">
+                                 <button class="butn" onclick="logout()">
+                                    <a class="nav-link btn btn-primary" href="#" style="color:white;">{{user}},LOGOUT <img src="{% static 'home/logout.svg' %}" alt="" height="20px" width="20px"></a>
+                                    </button>
+                                </li>
+                        </ul>
+                    </div>
+                    </nav>
+                    {% if user.student.outpass_set.count == 1 %}
+                    <div class="row justify-content-center pl-3 pr-3 mt-3" id='outpass'>
+                    <div class="card" style="width: 50rem;">
+                        <div class="card-body">
+                            <div class="mb-2">requested-datetime: {{ user.student.outpass_set.first.req_date|date:"d/m/Y, f a" }}</div>
+                            <div class="mb-2">departure-datetime: {{ user.student.outpass_set.first.dep_date|date:"d/m/Y, f a" }}</div>
+                            <div class="mb-2">requested-days: {{user.student.outpass_set.first.req_days}}</div>
+                            <div class="mb-2">reason: {{user.student.outpass_set.first.reason}}</div>
+                            <div class="mb-2">tutor-status: {{user.student.outpass_set.first.tutor_status}}</div>
+                            {% if not user.student.outpass_set.first.tutor_status == 'rejected' %}
+                            <div class="mb-2">warden-status: {{user.student.outpass_set.first.warden_status}}</div>
+                            {% if not user.student.outpass_set.first.warden_status == 'rejected' %}
+                            <div class="mb-2">security-status: {{user.student.outpass_set.first.security_status}}</div>
+                            {% endif %}
+                            {% endif %}
+                            {% if user.student.outpass_set.first.otp_set.count == 1 and not user.student.outpass_set.first.expired %}
+                            <div class="mb-2">OTP: <h3>{{user.student.outpass_set.first.otp_set.first.otp }}</h3></div>
+                            {% endif %}
+                            {% if user.student.outpass_set.first.opralias_set.first %}
+                            <div class="mb-2">RECORD NO: <h3>{{user.student.outpass_set.first.opralias_set.first.alias_no }}</h3></div>
+                            {% endif %}
+                            <div>
+
+                                <span class="float-right ml-3"><button class="btn btn-danger" onclick="del('{{user.student.outpass_set.first.pk}}')">Cancel</button></span>
+                                {% if user.student.outpass_set.first.tutor_status == 'accepted' and user.student.outpass_set.first.warden_status == 'accepted' and user.student.outpass_set.first.otp_set.count == 0 and not user.student.outpass_set.first.expired %}
+                                <span class="float-right"><button class="btn btn-primary" onclick="create_otp('{{user.student.outpass_set.first.pk}}')" >Generate OTP</button></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                      </div></div>
+                      {% endif %}
+
+                </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+    </div>
+{% endblock %}

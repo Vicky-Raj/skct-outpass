@@ -1,0 +1,77 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'student/mycss.css'%}">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+{% endblock %}
+
+
+{%  block body %}
+    <div class="container h-100 d-flex justify-content-center ">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+
+                <div class="card hovercard shadow-lg p-3 mb-5 bg-white rounded" style="padding: 0px">
+                    <div class="cardheader">
+
+                    </div>
+                    <div class="avatar">
+                        <img alt="" src="{{ student.image.url }}">
+                    </div>
+
+                    <div class="info mydiv">
+                        <div class="title">
+                            ROLL NO:
+                                {{student.reg_no}}
+                        </div>
+
+                        <div style="font-size : 20px; text-align: left; padding: 30px ">
+                            
+
+
+                            <table class="table table-borderless">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">NAME:</th>
+                                        <td>{{ student.user.first_name }}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">DEPARTMENT:</th>
+                                        <td>{{student.dep}}</td>
+
+                                    </tr> 
+                                    <tr>
+                                        <th scope="row">ROOM:</th>
+                                        <td colspan="2">{{student.room}}</td>
+
+                                    </tr>
+                                    
+                                    
+                                    <tr>
+                                        <th scope="row">PARENTS NO:</th>
+                                        <td colspan="2">{{ student.parent_no }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">STUDENT NO:</th>
+                                        <td colspan="2">{{ student.student_no }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

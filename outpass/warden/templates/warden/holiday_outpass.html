@@ -1,0 +1,88 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'student/main.css' %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+<script>
+	$(function() {
+		$('#datetimepicker1').datetimepicker();
+	  });
+	</script>
+{% endblock %}
+
+{% block body %}
+	<div class="bg-container-contact100" style="background-image: url({% static 'student/skctback.jpg' %});">
+		<div class="contact100-header flex-sb-m">
+			<a href="#" class="contact100-header-logo">
+				<img src="images/icons/logo.png" alt="LOGO">
+			</a>
+		</div>
+	</div>
+
+
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+			<button class="btn-hide-contact100">
+				<i class="zmdi zmdi-close"></i>
+			</button>
+
+			<div class="contact100-form-title" style="background-image: url({% static 'student/skctimg.jpg' %});">
+				<span>HOLIDAY OUTPASS</span>
+			</div>
+
+
+			<form class="contact100-form validate-form" method="POST" action="">
+				{% csrf_token %}
+					  
+				<div>
+				<label for="sel">Year:</label>
+                <select class="custom-select custom-select-lg mb-3" id="sel" name="year">
+					{% for i in 'xxxx' %}
+					{% if forloop.first %}
+					<option value="{{forloop.counter}}" selected>{{forloop.counter}}</option>
+					{% else %}
+					<option value="{{ forloop.counter }}">{{forloop.counter}}</option>
+					{% endif %}
+                    {% endfor %}
+				</select>
+				</div>
+
+
+				<div class="wrap-input100 validate-input mt-3">
+					<textarea id="message" class="input100" name="purpose" placeholder="PURPOSE......"></textarea>
+					<span class="focus-input100"></span>
+					<label class="label-input100 rs1" for="message">
+						<span class="lnr lnr-bubble"></span>
+					</label>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn" type="submit">
+						SEND
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+
+	<script src="{% static 'student/main.js' %}"></script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-23581568-13');
+	</script> -->
+{% endblock %}

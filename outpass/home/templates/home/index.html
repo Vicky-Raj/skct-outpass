@@ -1,0 +1,35 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'home/index.css' %}">
+{% endblock %}
+
+{% block body %}
+<center>
+<img src="{% static 'home/logo.jpg' %}">
+</center>
+<div class="container">
+<marquee direction="left" scrollamount="20"><h2>WELCOME TO SKCT HOSTEL GATE PASS</h2></marquee>
+</div>
+<div class="card text-center">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">LOGIN</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+  <div style="margin-top:7px;">
+    <a href="{% url 'tutor-login' %}" class="btn btn-outline-primary btn1">TUTOR LOGIN</a><br>
+   <div class="mt-3"></div>
+     <a href="{% url 'warden-login' %}" class="btn btn-outline-primary btn2">WARDEN LOGIN</a><br>
+   <div class="mt-3"></div>
+    <a href="{% url 'security-login' %}" class="btn btn-outline-primary btn1">SECURITY LOGIN</a><br>
+    <div class="mt-3"></div>
+     <a href="{% url 'student-login' %}" class="btn btn-outline-primary btn2">STUDENT LOGIN</a><br>
+  </div>
+  </div>
+</div>
+{% endblock %}

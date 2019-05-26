@@ -1,0 +1,60 @@
+{% extends 'home/base.html' %}
+
+{% block head %}
+<script>
+function validate(){
+    var password1 = document.getElementById('password1').value;
+    var password2 = document.getElementById('password2').value;
+    if(password1 == password2){
+        return true;
+    }
+    else{
+        document.getElementById('error').style.display = 'block';
+        return false;
+    }
+}
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+        <div id="content">
+
+                    <div class="row justify-content-center pl-3 pr-3 mt-3" id='outpass'>
+                        <div class="card" style="width: 40rem;">
+                     <div class="card-title text-center pt-3"><h2>CHANGE PASSWORD</h2></div>
+                        <div class="card-body">                        
+                        <form action="" method="POST" onsubmit="return validate()">
+                            {% csrf_token %}
+                            <div style="color:red;display: none;" class="mb-3 text-center" id="error">Password Does Not Match</div>
+                          <div class="form-group">
+                            <label for="usr">NEW PASSWORD:</label>
+                            <input type="password" class="form-control" id="password1" name="password" placeholder="ENTER NEW PASSWORD" autocomplete="off" required>
+                          </div>
+                          <div class="form-group">
+                                <label for="usr"> CONFIRM NEW PASSWORD:</label>
+                                <input type="password" class="form-control" id="password2" name="record" placeholder="CONFIRM NEW PASSWORD" autocomplete="off" required>
+                        </div>
+                          <div class="text-center"><button type="submit" class="btn btn-primary" onc>CHANGE</button></div>
+                        </form>
+                        </div>
+                        </div>
+                        </div>
+                </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+    </div>
+{% endblock %}
